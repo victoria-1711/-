@@ -1,0 +1,99 @@
+`markdown
+# Импортируем необходимые библиотеки
+from tkinter import Tk, Label, PhotoImage, Button
+from time import sleep
+import tkinter as tk
+import requests
+import tk
+
+# Функция для отображения экрана загрузки
+def splash_screen():
+    root = Tk()
+    root.title("Splash Screen")
+    root.geometry("1000x600")
+    background_image = PhotoImage(file="C:\\Users\Fujitsu\\Desktop\\MacBook-Pro-16_-1-_2_.ppm")
+    background_label = Label(root, image=background_image)
+    background_label.place(x=0, y=0, relwidth=1, relheight=1)
+    
+    root.update()
+    sleep(2)
+    root.destroy()
+
+# Функция для отображения погоды в городе Северо-Енисейский
+def city1(city1):
+    root = Tk()
+    root.title("city_se")
+    root.geometry("1000x600")
+    root.config(bg="#BAE2EB")
+    
+    # Создаем метки для отображения различных погодных условий
+    label_temp = Label(root, text='Температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_temp.pack(fill="both", expand=True)
+    label_feels_like = Label(root, text='Ощущаемая температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_feels_like.pack(fill="both", expand=True)
+    label_humidity = Label(root, text='Влажность: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_humidity.pack(fill="both", expand=True)
+    label_wind_speed = Label(root, text='Ветер: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_wind_speed.pack(fill="both", expand=True)
+    city = "Северо-Енисейский"
+    response = requests.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=metric&appid=df6a5d6b1d928ad532a4d399ddd24faa')
+    if response.status_code == 200:
+        data = response.json()
+        root.title('Погода в городе Северо-Енисейский')
+        label_temp.config(text='Температура: ' + str(round(data['main']['temp'])) + '°C')
+        label_feels_like.config(text='Ощущаемая температура: ' + str(round(data['main']['feels_like'])) + '°C')
+        label_humidity.config(text='Влажность: ' + str(data['main']['humidity']) + '%')
+        label_wind_speed.config(text='Ветер: ' + str(round(data['wind']['speed'])) + 'м/с')
+    else:
+        root.title('Произошла ошибка: ' + str(response.status_code))
+
+# Функция для отображения погоды в городе Северобайкальск
+def city2(city2):
+    root = Tk()
+    root.title("city_sbk")
+    root.geometry("1000x600")
+    root.config(bg="#BAE2EB")
+    label_temp = Label(root, text='Температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_temp.pack(fill="both", expand=True)
+    label_feels_like = Label(root, text='Ощущаемая температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF
+    # Функция для отображения погоды в выбранном городе
+def city3(city3):
+    root = Tk()
+    root.title("city_kras")
+    root.geometry("1000x600")
+    root.config(bg="#BAE2EB")
+    
+    # Создание метки для отображения температуры
+    label_temp = Label(root, text='Температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_temp.pack(fill="both", expand=True)
+    
+    # Создание метки для отображения ощущаемой температуры
+    label_feels_like = Label(root, text='Ощущаемая температура: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_feels_like.pack(fill="both", expand=True)
+    
+    # Создание метки для отображения влажности
+    label_humidity = Label(root, text='Влажность: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_humidity.pack(fill="both", expand=True)
+    
+    # Создание метки для отображения скорости ветра
+    label_wind_speed = Label(root, text='Ветер: ', font=("Abhaya Libre SemiBold", 30), fg="#FFFFFF", bg="#BAE2EB")
+    label_wind_speed.pack(fill="both", expand=True)
+    
+    # Установка города для получения данных о погоде
+    city = "Красноярск"
+    
+    # Получение данных о погоде от API OpenWeatherMap
+    response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=df6a5d6b1d928ad532a4d399ddd24faa')
+    
+    # Проверка статуса ответа
+    if response.status_code == 200:
+        data = response.json()
+        root.title('Погода в городе Красноярск')
+        label_temp.config(text='Температура: ' + str(round(data['main']['temp'])) + '°C')
+        label_feels_like.config(text='Ощущаемая температура: ' + str(round(data['main']['feels_like'])) + '°C')
+        label_humidity.config(text='Влажность: ' + str(data['main']['humidity']) + '%')
+        label_wind_speed.config(text='Ветер: ' + str(round(data['wind']['speed'])) + 'м/с')
+    else:
+        root.title('Произошла ошибка: ' + str(response.status_code))
+    
+    root.mainloop()
